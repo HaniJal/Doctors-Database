@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DoctorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'COMP10204W25_LAB5.dbo.COMPANION' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="COMPANION">
+          <Key>
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="ACTOR" />
+            <PropertyRef Name="DOCTORID" />
+            <PropertyRef Name="STORYID" />
+          </Key>
+          <Property Name="NAME" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ACTOR" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DOCTORID" Type="int" Nullable="false" />
+          <Property Name="STORYID" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DOCTOR">
+          <Key>
+            <PropertyRef Name="DOCTORID" />
+          </Key>
+          <Property Name="DOCTORID" Type="int" Nullable="false" />
+          <Property Name="ACTOR" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SERIES" Type="int" Nullable="false" />
+          <Property Name="AGE" Type="int" Nullable="false" />
+          <Property Name="DEBUT" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="PICTURE" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EPISODE">
+          <Key>
+            <PropertyRef Name="STORYID" />
+          </Key>
+          <Property Name="STORYID" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="SEASON" Type="int" Nullable="false" />
+          <Property Name="SEASONYEAR" Type="int" Nullable="false" />
+          <Property Name="TITLE" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__COMPANION__DOCTO__276EDEB3">
+          <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="1" />
+          <End Role="COMPANION" Type="Self.COMPANION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCTOR">
+              <PropertyRef Name="DOCTORID" />
+            </Principal>
+            <Dependent Role="COMPANION">
+              <PropertyRef Name="DOCTORID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__COMPANION__STORY__286302EC">
+          <End Role="EPISODE" Type="Self.EPISODE" Multiplicity="1" />
+          <End Role="COMPANION" Type="Self.COMPANION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EPISODE">
+              <PropertyRef Name="STORYID" />
+            </Principal>
+            <Dependent Role="COMPANION">
+              <PropertyRef Name="STORYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DOCTOR__DEBUT__29572725">
+          <End Role="EPISODE" Type="Self.EPISODE" Multiplicity="1" />
+          <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EPISODE">
+              <PropertyRef Name="STORYID" />
+            </Principal>
+            <Dependent Role="DOCTOR">
+              <PropertyRef Name="DEBUT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DoctorModelStoreContainer">
+          <EntitySet Name="DOCTOR" EntityType="Self.DOCTOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EPISODE" EntityType="Self.EPISODE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMPANION" EntityType="Self.COMPANION" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [COMPANION].[NAME] AS [NAME], 
+    [COMPANION].[ACTOR] AS [ACTOR], 
+    [COMPANION].[DOCTORID] AS [DOCTORID], 
+    [COMPANION].[STORYID] AS [STORYID]
+    FROM [dbo].[COMPANION] AS [COMPANION]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__COMPANION__DOCTO__276EDEB3" Association="Self.FK__COMPANION__DOCTO__276EDEB3">
+            <End Role="DOCTOR" EntitySet="DOCTOR" />
+            <End Role="COMPANION" EntitySet="COMPANION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__COMPANION__STORY__286302EC" Association="Self.FK__COMPANION__STORY__286302EC">
+            <End Role="EPISODE" EntitySet="EPISODE" />
+            <End Role="COMPANION" EntitySet="COMPANION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DOCTOR__DEBUT__29572725" Association="Self.FK__DOCTOR__DEBUT__29572725">
+            <End Role="EPISODE" EntitySet="EPISODE" />
+            <End Role="DOCTOR" EntitySet="DOCTOR" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DoctorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DOCTOR">
+          <Key>
+            <PropertyRef Name="DOCTORID" />
+          </Key>
+          <Property Name="DOCTORID" Type="Int32" Nullable="false" />
+          <Property Name="ACTOR" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SERIES" Type="Int32" Nullable="false" />
+          <Property Name="AGE" Type="Int32" Nullable="false" />
+          <Property Name="DEBUT" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PICTURE" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="COMPANIONs" Relationship="Self.FK__COMPANION__DOCTO__276EDEB3" FromRole="DOCTOR" ToRole="COMPANION" />
+          <NavigationProperty Name="EPISODE" Relationship="Self.FK__DOCTOR__DEBUT__29572725" FromRole="DOCTOR" ToRole="EPISODE" />
+        </EntityType>
+        <EntityType Name="EPISODE">
+          <Key>
+            <PropertyRef Name="STORYID" />
+          </Key>
+          <Property Name="STORYID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SEASON" Type="Int32" Nullable="false" />
+          <Property Name="SEASONYEAR" Type="Int32" Nullable="false" />
+          <Property Name="TITLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="DOCTORs" Relationship="Self.FK__DOCTOR__DEBUT__29572725" FromRole="EPISODE" ToRole="DOCTOR" />
+          <NavigationProperty Name="COMPANIONs" Relationship="Self.FK__COMPANION__STORY__286302EC" FromRole="EPISODE" ToRole="COMPANION" />
+        </EntityType>
+        <EntityType Name="COMPANION">
+          <Key>
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="ACTOR" />
+            <PropertyRef Name="DOCTORID" />
+            <PropertyRef Name="STORYID" />
+          </Key>
+          <Property Name="NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ACTOR" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DOCTORID" Type="Int32" Nullable="false" />
+          <Property Name="STORYID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="DOCTOR" Relationship="Self.FK__COMPANION__DOCTO__276EDEB3" FromRole="COMPANION" ToRole="DOCTOR" />
+          <NavigationProperty Name="EPISODE" Relationship="Self.FK__COMPANION__STORY__286302EC" FromRole="COMPANION" ToRole="EPISODE" />
+        </EntityType>
+        <Association Name="FK__COMPANION__DOCTO__276EDEB3">
+          <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="1" />
+          <End Role="COMPANION" Type="Self.COMPANION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCTOR">
+              <PropertyRef Name="DOCTORID" />
+            </Principal>
+            <Dependent Role="COMPANION">
+              <PropertyRef Name="DOCTORID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DOCTOR__DEBUT__29572725">
+          <End Role="EPISODE" Type="Self.EPISODE" Multiplicity="1" />
+          <End Role="DOCTOR" Type="Self.DOCTOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EPISODE">
+              <PropertyRef Name="STORYID" />
+            </Principal>
+            <Dependent Role="DOCTOR">
+              <PropertyRef Name="DEBUT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__COMPANION__STORY__286302EC">
+          <End Role="EPISODE" Type="Self.EPISODE" Multiplicity="1" />
+          <End Role="COMPANION" Type="Self.COMPANION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EPISODE">
+              <PropertyRef Name="STORYID" />
+            </Principal>
+            <Dependent Role="COMPANION">
+              <PropertyRef Name="STORYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="COMP10204W25_LAB5Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DOCTORs" EntityType="Self.DOCTOR" />
+          <EntitySet Name="EPISODEs" EntityType="Self.EPISODE" />
+          <EntitySet Name="COMPANIONs" EntityType="Self.COMPANION" />
+          <AssociationSet Name="FK__COMPANION__DOCTO__276EDEB3" Association="Self.FK__COMPANION__DOCTO__276EDEB3">
+            <End Role="DOCTOR" EntitySet="DOCTORs" />
+            <End Role="COMPANION" EntitySet="COMPANIONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DOCTOR__DEBUT__29572725" Association="Self.FK__DOCTOR__DEBUT__29572725">
+            <End Role="EPISODE" EntitySet="EPISODEs" />
+            <End Role="DOCTOR" EntitySet="DOCTORs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__COMPANION__STORY__286302EC" Association="Self.FK__COMPANION__STORY__286302EC">
+            <End Role="EPISODE" EntitySet="EPISODEs" />
+            <End Role="COMPANION" EntitySet="COMPANIONs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DoctorModelStoreContainer" CdmEntityContainer="COMP10204W25_LAB5Entities">
+          <EntitySetMapping Name="DOCTORs">
+            <EntityTypeMapping TypeName="DoctorModel.DOCTOR">
+              <MappingFragment StoreEntitySet="DOCTOR">
+                <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
+                <ScalarProperty Name="ACTOR" ColumnName="ACTOR" />
+                <ScalarProperty Name="SERIES" ColumnName="SERIES" />
+                <ScalarProperty Name="AGE" ColumnName="AGE" />
+                <ScalarProperty Name="DEBUT" ColumnName="DEBUT" />
+                <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EPISODEs">
+            <EntityTypeMapping TypeName="DoctorModel.EPISODE">
+              <MappingFragment StoreEntitySet="EPISODE">
+                <ScalarProperty Name="STORYID" ColumnName="STORYID" />
+                <ScalarProperty Name="SEASON" ColumnName="SEASON" />
+                <ScalarProperty Name="SEASONYEAR" ColumnName="SEASONYEAR" />
+                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPANIONs">
+            <EntityTypeMapping TypeName="DoctorModel.COMPANION">
+              <MappingFragment StoreEntitySet="COMPANION">
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ACTOR" ColumnName="ACTOR" />
+                <ScalarProperty Name="DOCTORID" ColumnName="DOCTORID" />
+                <ScalarProperty Name="STORYID" ColumnName="STORYID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
